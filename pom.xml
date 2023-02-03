@@ -118,6 +118,25 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <executions>
+                    <execution>
+                        <id>install-jep</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <url>https://github.com/karpathy/nanoGPT/archive/refs/heads/master.zip</url>
+                    <unpack>true</unpack>
+                    <outputDirectory>${project.build.directory}/python</outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
