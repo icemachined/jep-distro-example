@@ -1,3 +1,4 @@
+import jep.Jep
 import jep.JepConfig
 import jep.MainInterpreter
 import org.slf4j.LoggerFactory
@@ -116,5 +117,14 @@ object JepInitializer {
     }
     enum class OS {
         WINDOWS, LINUX, MAC
+    }
+}
+fun Jep.setupDebugger() {
+    val debugEgg = System.getenv("DEBUG_PYTHON_EGG")
+    val debugHost = System.getenv("DEBUG_PYTHON_HOST") ?: "localhost"
+    val debugPort = System.getenv("DEBUG_PYTHON_PORT")?.toInt() ?: 52225
+    if (debugEgg != null) {
+        this.runScript(File(JepInitializer.javaClass.getResource("/setup_debug.py").file).canonicalPath)
+        this.invoke("enable_debugger", debugEgg, debugHost, debugPort)
     }
 }

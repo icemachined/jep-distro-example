@@ -8,4 +8,3 @@ def process_request(request):
     response = service.response
 
     return response
-

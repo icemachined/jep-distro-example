@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
+        <python.version>3.10</python.version>
     </properties>
 
     <repositories>
@@ -26,7 +27,6 @@
 
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -44,10 +44,6 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/src/main/python</directory>
-                                    <includes>
-                                        <include>ExampleModule/*.py</include>
-                                        <include>example.py</include>
-                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
@@ -67,7 +63,7 @@
                         </goals>
                         <configuration>
                             <includeGroupIds>com.icemachined</includeGroupIds>
-                            <includeArtifactIds>jep-distro</includeArtifactIds>
+                            <includeArtifactIds>jep-distro-cp${python.version}</includeArtifactIds>
                             <outputDirectory>${project.build.directory}/jep-distro</outputDirectory>
                         </configuration>
                     </execution>
@@ -93,14 +89,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -165,8 +153,8 @@
         </dependency>
         <dependency>
             <groupId>com.icemachined</groupId>
-            <artifactId>jep-distro</artifactId>
-            <version>4.1.0</version>
+            <artifactId>jep-distro-cp${python.version}</artifactId>
+            <version>4.1.1</version>
             <type>tgz</type>
         </dependency>
         <dependency>
