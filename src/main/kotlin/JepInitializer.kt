@@ -35,7 +35,7 @@ object JepInitializer {
             // we can point JEP to the folder and get better debug messages with python source code
             // locations
 
-            // we want to have the parent folder of "CPGPython" so that we can do "import CPGPython"
+            // we want to have the parent folder of "ExampleModule" so that we can do "import ExampleModule"
             // in python
             config.addIncludePaths(Paths.get(packageInitFile.toURI()).parent.parent.toString())
         } else {
@@ -88,7 +88,7 @@ object JepInitializer {
                 LOGGER.debug("Extracting entry: {}", entry.name)
 
                 // resolve target files relatively to our target folder. They are already
-                // prefixed with CPGPython/
+                // prefixed with ExampleModule/
                 val targetFile = targetFolder.resolve(entry.name).toFile()
 
                 // make sure to create directories along the way
