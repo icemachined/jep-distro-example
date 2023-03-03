@@ -11,5 +11,5 @@ def enable_debugger(pydevdegg, pydevdhost, pydevdport):
 
     except Exception as e:
         raise RuntimeError(
-            "Failed to attached debuger: %s" %
+            "Failed to attach debugger: %s" %
             e)
