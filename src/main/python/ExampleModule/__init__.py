@@ -1,10 +1,13 @@
 from com.icemachined import ResponseBuilder
+from com.icemachined import Request
+import ast
 
 class PythonService:
     def __init__(self, request):
-        self.request = request
+        rootNode = ast.parse(request.request)
+        self.request = str(rootNode.body[0].name)
 
 
     def build(self):
         builder = ResponseBuilder()
-        self.response = builder.newResponse( self.request )
+        self.response = builder.newResponse( Request(self.request))
