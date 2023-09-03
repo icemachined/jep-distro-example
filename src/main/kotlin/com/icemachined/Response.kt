@@ -1,3 +1,3 @@
 package com.icemachined
 
-class Response(val response: String)
+data class Response(val response: String)
