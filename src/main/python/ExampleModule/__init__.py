@@ -4,7 +4,7 @@ import ast
 
 class PythonService:
     def __init__(self, request):
-        rootNode = ast.parse(request.request)
+        rootNode = ast.parse(request.getRequest())
         self.request = str(rootNode.body[0].name)
 
 
