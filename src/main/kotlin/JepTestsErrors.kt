@@ -1,6 +1,7 @@
 import com.icemachined.Request
 import jep.Jep
 import jep.SubInterpreter
+import jep.python.PyCallable
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -52,7 +53,16 @@ class JepTestError {
         interp["b"] = b
         interp.eval("x = b.buildLiteral(1+5j)")
         val x = interp.getValue("x") as Literal<*>
-        Thread{println(x.value)}.start()
+        Thread { println(x.value) }.start()
+    }
+
+    @Test
+    fun testMixedReturnType(){
+        val initScript = File(JepInitializer.javaClass.getResource("/mixedtype.py").file).canonicalPath
+        interp.runScript(initScript)
+        val res = interp.getValue("get_some_list") as PyCallable
+        print("res = ${res.call(true)}")
+        print("res = ${res.call(false)}")
     }
 
 }

@@ -53,4 +53,19 @@ internal class JepTestsNumpy {
         // prints 800 since we set in java
         interp.exec("print(x[4])")
     }
+
+    @Test
+    fun testNumpyWOSupport(){
+        interp.exec("import numpy as np")
+        interp.exec("a = np.array([[1, 2], [3, 4]])")
+        interp.exec("print(a)")
+        interp.exec("b = a.transpose()")
+        interp.exec("print(b)")
+        interp.exec("c = a@b")
+        interp.exec("print(c)")
+        interp.exec("d = np.linalg.det(c)")
+        interp.exec("print(d)")
+        val d = interp.getValue("d")
+        println("d=$d")
+    }
 }

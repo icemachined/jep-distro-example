@@ -5,8 +5,11 @@ import jep.python.PyCallable
 import jep.python.PyObject
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import java.io.File
+import java.util.*
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -74,6 +77,7 @@ class JepTestsBasic {
         interp.exec("javaList = ArrayList()");
         interp.exec("javaList.addAll(javaSet)");
         interp.exec("print(javaList)")
+        interp.exec("print(type(javaSet))")
     }
 
     @Test
@@ -88,11 +92,32 @@ class JepTestsBasic {
         val pyobj: PyObject = interp.getValue("instance", PyObject::class.java)
         val pyHelloWorld: PyCallable = pyobj.getAttr("helloWorld", PyCallable::class.java)
         val result = pyHelloWorld.call() as String
+        println(result)
 
         interp.eval("def hello(arg):\n" +
                 "    return 'Hello ' +  str(arg)")
         val pyHello: PyCallable = interp.getValue("hello", PyCallable::class.java)
         val result1 = pyHello.call("World") as String
         println(result1)
+    }
+
+    /**
+     * Not implemented yet in JEP, planned for 4.2 release.
+     */
+    @Test
+    @Disabled
+    fun customConversion(){
+        interp.set("theDate", Date())
+        interp.exec("print(type(theDate))") // <class 'java.util.Date'>
+
+        interp.exec("print(theDate.getTime())") // Current time as long
+
+        val initScript = File(JepInitializer.javaClass.getResource("/date_converter.py").file).canonicalPath
+        interp.runScript(initScript)
+        interp.set("theDate", Date())
+        interp.exec("print(type(theDate))") // <class 'datetime.datetime'>
+
+        interp.set("anotherDate", Date())
+        interp.exec("print(anotherDate - theDate)") // an instance of <class 'datetime.timedelta'>
     }
 }
