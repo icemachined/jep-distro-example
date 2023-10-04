@@ -1,3 +1,5 @@
 package com.icemachined
 
-class Request(val request: String)
+import org.intellij.lang.annotations.Language
+
+class Request(@Language("python") val request: String)

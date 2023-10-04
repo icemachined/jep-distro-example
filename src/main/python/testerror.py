@@ -8,7 +8,7 @@ def build(builder):
 def process_request(builder):
     try:
         build(builder)
-    except Exception as e:
+    except IndexError as e:
         print(traceback.format_exc())
         raise e
 

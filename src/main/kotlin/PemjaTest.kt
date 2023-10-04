@@ -20,11 +20,13 @@ fun main(args: Array<String>) {
     interpreter.exec("import example_pemja")
 
     val request = Request(
-        "def foo():\n" +
-                "    x = source()\n" +
-                "    if x < MAX:\n" +
-                "        y = 2 * x\n" +
-                "        sink(y)\n"
+        """
+        def foo():
+            x = source()
+            if x < MAX:
+                y = 2 * x
+                sink(y)
+        """.trimIndent()
     )
     val res = interpreter.invoke("example_pemja.process_request", request);
     print("res = $res")

@@ -11,7 +11,7 @@ import java.io.File
 
 class SomeBuilder {
     fun build(){
-        throw RuntimeException("Error happens")
+        throw IndexOutOfBoundsException("Error happens")
     }
 
     fun <T>  buildLiteral(value:T):Literal<T> {

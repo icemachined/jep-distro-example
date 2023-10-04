@@ -10,12 +10,15 @@ fun main(args: Array<String>) {
 
     val initScript = File(JepInitializer.javaClass.getResource("/example.py").file).canonicalPath
     interp.runScript(initScript)
+
     val request = Request(
-        "def foo():\n" +
-                "    x = source()\n" +
-                "    if x < MAX:\n" +
-                "        y = 2 * x\n" +
-                "        sink(y)\n"
+        """
+        def foo():
+            x = source()
+            if x < MAX:
+                y = 2 * x
+                sink(y)
+        """.trimIndent()
     )
     val res = interp.invoke("process_request", request)
     print("res = $res")

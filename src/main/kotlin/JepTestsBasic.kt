@@ -3,11 +3,7 @@ import jep.Jep
 import jep.SubInterpreter
 import jep.python.PyCallable
 import jep.python.PyObject
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import java.io.File
 import java.util.*
 
@@ -43,15 +39,17 @@ class JepTestsBasic {
         interp.exec("import ExampleModule")
         // any of the following work, these are just pseudo-examples
 
-        val obj = Request(
-        "def foo():\n" +
-            "    x = source()\n" +
-            "    if x < MAX:\n" +
-            "        y = 2 * x\n" +
-            "        sink(y)\n"
+        val request = Request(
+            """
+            def foo():
+                x = source()
+                if x < MAX:
+                    y = 2 * x
+                    sink(y)
+            """.trimIndent()
         )
         // using exec(String) to invoke methods
-        interp.set("arg", obj);
+        interp.set("arg", request);
         interp.exec("x = ExampleModule.extract_function_name(arg)");
         val result1 = interp.getValue("x");
         println(result1)
@@ -64,7 +62,7 @@ class JepTestsBasic {
 
         // using invoke to invoke methods
         interp.exec("foo3 = ExampleModule.extract_function_name")
-        val result3 = interp.invoke("foo3", obj);
+        val result3 = interp.invoke("foo3", request);
         println(result3)
     }
 
@@ -83,11 +81,15 @@ class JepTestsBasic {
     @Test
     fun pyCallable() {
         interp.eval(
-                "class Example(object):\n" +
-                "    def __init__(self):\n" +
-                "        pass\n" +
-                "    def helloWorld(self):\n" +
-                "        return 'Hello World'\n");
+            /* language=Python */
+            """
+            class Example(object):
+                def __init__(self):
+                    pass
+                def helloWorld(self):
+                    return 'Hello World'
+            """.trimIndent()
+        );
         interp.eval("instance = Example()")
         val pyobj: PyObject = interp.getValue("instance", PyObject::class.java)
         val pyHelloWorld: PyCallable = pyobj.getAttr("helloWorld", PyCallable::class.java)
@@ -101,6 +103,30 @@ class JepTestsBasic {
         println(result1)
     }
 
+    @Test
+    fun usingPyObject(){
+        interp.exec(
+            /* language=Python */
+            """
+            class Simple:
+                def test(self):
+                    return 123;
+            """.trimIndent()
+        )
+        val simple: PyCallable = interp.getValue("Simple", PyCallable::class.java)
+        val instance = simple.callAs(PyObject::class.java)
+        val result = instance.getAttr("test", PyCallable::class.java).callAs(
+            Number::class.java
+        )
+        println(result)
+
+        val instanceJava: Simple = instance.proxy(Simple::class.java)
+        val result1: Int = instanceJava.test()
+        println(result1)
+    }
+    interface Simple {
+        fun test(): Int
+    }
     /**
      * Not implemented yet in JEP, planned for 4.2 release.
      */
