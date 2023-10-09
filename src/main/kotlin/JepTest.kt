@@ -1,4 +1,5 @@
 import com.icemachined.Request
+import com.icemachined.Response
 import jep.SubInterpreter
 import java.io.File
 
@@ -20,6 +21,6 @@ fun main(args: Array<String>) {
                 sink(y)
         """.trimIndent()
     )
-    val res = interp.invoke("process_request", request)
+    val res = interp.invoke("process_request", request) as Response
     print("res = $res")
 }

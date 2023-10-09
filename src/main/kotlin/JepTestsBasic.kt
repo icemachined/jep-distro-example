@@ -111,6 +111,8 @@ class JepTestsBasic {
             class Simple:
                 def test(self):
                     return 123;
+                def __str__(self):
+                    return "Simple obj"
             """.trimIndent()
         )
         val simple: PyCallable = interp.getValue("Simple", PyCallable::class.java)
@@ -119,6 +121,7 @@ class JepTestsBasic {
             Number::class.java
         )
         println(result)
+        println(instance.toString())
 
         val instanceJava: Simple = instance.proxy(Simple::class.java)
         val result1: Int = instanceJava.test()
