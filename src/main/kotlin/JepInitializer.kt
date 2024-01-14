@@ -52,7 +52,8 @@ object JepInitializer {
             when (getOS()!!) {
                 OS.WINDOWS -> File(jepRoot.resolve("jep.dll").toString())
                 OS.LINUX -> File(jepRoot.resolve("libjep.so").toString())
-                OS.MAC -> File(jepRoot.resolve("libjep.jnilib").toString())
+                OS.MAC_ARM64 -> File(jepRoot.resolve("libjep.arm64.jnilib").toString())
+                OS.MAC_X86_64 -> File(jepRoot.resolve("libjep.x86_64.jnilib").toString())
             }
 
         }
@@ -111,12 +112,16 @@ object JepInitializer {
         } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
             return OS.LINUX
         } else if (os.contains("mac")) {
-            return OS.MAC
+            val arch = System.getProperty("os.arch").lowercase()
+            if (arch == "aarch64")
+                return OS.MAC_ARM64
+            else
+                return OS.MAC_X86_64
         }
         return null
     }
     enum class OS {
-        WINDOWS, LINUX, MAC
+        WINDOWS, LINUX, MAC_ARM64, MAC_X86_64
     }
 }
 fun Jep.setupDebugger() {

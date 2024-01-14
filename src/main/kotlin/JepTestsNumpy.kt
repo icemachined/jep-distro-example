@@ -21,6 +21,9 @@ internal class JepTestsNumpy {
         interp = SharedInterpreter()
         interp.eval("import jep")
         interp.eval("print(\"Is numpy enabled:\" + str(jep.JEP_NUMPY_ENABLED))")
+        interp.eval("import platform")
+        interp.eval("print(\"Arch:\" + str(platform.machine()))")
+        interp.eval("print(\"Python version:\" + str(platform.python_version()))")
         println("Initialized interpreter")
     }
 

@@ -149,12 +149,12 @@
         <dependency>
             <groupId>black.ninia</groupId>
             <artifactId>jep</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.icemachined</groupId>
             <artifactId>jep-distro-cp${python.version}</artifactId>
-            <version>4.1.1</version>
+            <version>4.2.0</version>
             <type>tgz</type>
         </dependency>
         <dependency>
